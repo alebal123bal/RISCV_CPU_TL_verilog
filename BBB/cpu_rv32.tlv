@@ -54,6 +54,20 @@
    $is_r_instr = $instr[6:2] == 5'b01011 || $instr[6:2] == 5'b01100 || $instr[6:2] == 5'b01110 || $instr[6:2] == 5'b10100;
    $is_j_instr = $instr[6:2] == 5'b11011;
    $is_b_instr = $instr[6:2] == 5'b11000;
+
+   // Get opcode
+   $opcode = $instr[6:0];
+   $rs2 = $instr[24:20];
+   $rs1 = $instr[19:15];
+   $funct3 = $instr[14:12];
+   $rd = $instr[11:7];
+
+   // Check when these are valid
+   $rs2_valid = $is_r_instr || $is_s_instr || $is_b_instr; 
+   $rs1_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr; 
+   $funct3_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;  
+   $rd_valid = $is_r_instr || $is_i_instr || $is_u_instr || $is_j_instr;  
+   $imm_valid = !$is_r_instr;  
    
    // Assert these to end simulation (before Makerchip cycle limit).
    *passed = 1'b0;
