@@ -78,10 +78,13 @@
    // Store
 
    // Load
+   $is_load = $is_s_instr;
 
    // Set
    $is_slt = $dec_bits ==? 11'b0_010_011_0011;
+   $is_slti = $dec_bits ==? 11'bx_010_001_0011;
    $is_sltu = $dec_bits ==? 11'b0_011_011_0011;
+   $is_sltiu = $dec_bits ==? 11'bx_011_001_0011;
 
    // Logic
    $is_xor = $dec_bits ==? 11'b0_100_0110011;
@@ -91,8 +94,11 @@
    $is_and = $dec_bits ==? 11'b0_111_0110011;
    $is_andi = $dec_bits ==? 11'bx_111_0010011;
    $is_sll = $dec_bits ==? 11'b0_001_0110011;
+   $is_slli = $dec_bits ==? 11'b0_001_0010011;
    $is_srl = $dec_bits ==? 11'b0_101_0110011;
+   $is_srli = $dec_bits ==? 11'b0_101_0010011;
    $is_sra = $dec_bits ==? 11'b1_101_0110011;
+   $is_sral = $dec_bits ==? 11'b1_101_0010011;
 
    // ALU
    $result[31:0] =
