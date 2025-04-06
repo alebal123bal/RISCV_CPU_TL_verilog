@@ -55,8 +55,9 @@
                            32'b0;  // Default
 
    // Decode specific instruction
-   $dec_bits[10:0] = {$instr[30],$funct3,$opcode};
+   $dec_bits[10:0] = {$instr[30], $funct3, $opcode};
 
+   // Branches
    $is_beq = $dec_bits ==? 11'bx_000_1100011;
    $is_bne = $dec_bits ==? 11'bx_001_1100011;
    $is_blt = $dec_bits ==? 11'bx_100_1100011;
@@ -64,9 +65,34 @@
    $is_bltu = $dec_bits ==? 11'bx_110_1100011;
    $is_bgeu = $dec_bits ==? 11'bx_111_1100011;
 
-   $is_addi = $dec_bits ==? 11'bx_000_0010011;
+   // Jump
+   $is_jal = $dec_bits ==? 11'bx_xxx_1101111;
+   $is_jalr = $dec_bits ==? 11'bx_000_1101111;
 
+   // Addition
+   $is_addi = $dec_bits ==? 11'bx_000_0010011;
    $is_add = $dec_bits ==? 11'b0_000_0110011;
+   $is_sub = $dec_bits ==? 11'b1_000_0110011;
+   $is_auipc = $dec_bits ==? 11'bx_xxx_0010111;
+
+   // Store
+
+   // Load
+
+   // Set
+   $is_slt = $dec_bits ==? 11'b0_010_011_0011;
+   $is_sltu = $dec_bits ==? 11'b0_011_011_0011;
+
+   // Logic
+   $is_xor = $dec_bits ==? 11'b0_100_0110011;
+   $is_xori = $dec_bits ==? 11'bx_100_0010011;
+   $is_or = $dec_bits ==? 11'b0_110_0110011;
+   $is_ori = $dec_bits ==? 11'bx_110_0010011;
+   $is_and = $dec_bits ==? 11'b0_111_0110011;
+   $is_andi = $dec_bits ==? 11'bx_111_0010011;
+   $is_sll = $dec_bits ==? 11'b0_001_0110011;
+   $is_srl = $dec_bits ==? 11'b0_101_0110011;
+   $is_sra = $dec_bits ==? 11'b1_101_0110011;
 
    // ALU
    $result[31:0] =
