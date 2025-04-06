@@ -67,7 +67,7 @@
 
    // Jump
    $is_jal = $dec_bits ==? 11'bx_xxx_1101111;
-   $is_jalr = $dec_bits ==? 11'bx_000_1101111;
+   $is_jalr = $dec_bits ==? 11'bx_000_1100111;
 
    // Addition
    $is_addi = $dec_bits ==? 11'bx_000_0010011;
@@ -79,6 +79,7 @@
 
    // Load
    $is_load = $is_s_instr;
+   $is_lui = $dec_bits ==? 11'bx_xxx_011_0111;
 
    // Set
    $is_slt = $dec_bits ==? 11'b0_010_011_0011;
@@ -98,7 +99,7 @@
    $is_srl = $dec_bits ==? 11'b0_101_0110011;
    $is_srli = $dec_bits ==? 11'b0_101_0010011;
    $is_sra = $dec_bits ==? 11'b1_101_0110011;
-   $is_sral = $dec_bits ==? 11'b1_101_0010011;
+   $is_srai = $dec_bits ==? 11'b1_101_0010011;
 
    // ALU
    $result[31:0] =
