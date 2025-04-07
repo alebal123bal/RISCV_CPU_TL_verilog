@@ -80,9 +80,10 @@
    $is_auipc = $dec_bits ==? 11'bx_xxx_0010111;
 
    // Store
+   $is_sw = $dec_bits ==? 11'bx_010_0100011;  // Store word specifically
 
    // Load
-   $is_load = $is_s_instr;
+   $is_load = $opcode == 7'b0000011;  // All load instructions
    $is_lui = $dec_bits ==? 11'bx_xxx_011_0111;
 
    // Set
@@ -130,7 +131,11 @@
     $is_auipc ? $pc + $imm:
     $is_jal ? $pc + 32'd4:
     $is_jalr ? $pc + 32'd4:
+    $is_load ? $ld_data:
                32'b0;
+
+   // Memory address calculation
+   $dmem_addr[31:0] = $src1_value + $imm;
 
    $stlu_rslt[31:0] = {31'b0, $src1_value < $src2_value};
    $stliu_rslt[31:0] = {31'b0, $src1_value < $imm};
@@ -165,7 +170,7 @@
    *failed = *cyc_cnt > M4_MAX_CYC;
    
    m4+rf(32, 32, $reset, $rf_wr_en, $rd[4:0], $result[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
-   //m4+dmem(32, 32, $reset, $addr[4:0], $wr_en, $wr_data[31:0], $rd_en, $rd_data)
+   m4+dmem(32, 32, $reset, $dmem_addr[4:0], $is_s_instr, $src2_value[31:0], $is_load, $ld_data)
    m4+cpu_viz()
 \SV
    endmodule
