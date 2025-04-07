@@ -107,6 +107,16 @@
     $is_add ? $src1_value + $src2_value:
                32'b0;
 
+   $stlu_rslt[31:0] = {31'b0, $src1_value < $src2_value};
+   $stliu_rslt[31:0] = {31'b0, $src1_value < $imm};
+
+   // Sign extend src 1
+   $sext_src1[63:0] = { {32{$src1_value[31]}}, $src1_value};
+
+   $sra_rslt[63:0] = $sext_src1 >> $src2_value[4:0];
+   $srai_rslt[63:0] = $sext_src1 >> $imm;
+   
+
    // Register x0 should always be 0 in RISC-V
    $rf_wr_en = $rd_valid && ($rd != 5'b00000);
 
