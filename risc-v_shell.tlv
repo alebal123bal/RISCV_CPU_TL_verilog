@@ -106,12 +106,12 @@
     $is_addi ? $src1_value + $imm :
     $is_add ? $src1_value + $src2_value:
     $is_sub ? $src1_value - $src2_value:
-    $is_andi ? $src1_value and $imm:
-    $is_and ? $src1_value and $src2_value:
-    $is_ori ? $src1_value or $imm:
-    $is_or ? $src1_value or $src2_value:
-    $is_xori ? $src1_value xor $imm:
-    $is_xor ? $src1_value xor $src2_value:
+    $is_andi ? $src1_value & $imm:
+    $is_and ? $src1_value & $src2_value:
+    $is_ori ? $src1_value | $imm:
+    $is_or ? $src1_value | $src2_value:
+    $is_xori ? $src1_value ^ $imm:
+    $is_xor ? $src1_value ^ $src2_value:
     $is_slli ? $src1_value << $imm[5:0]:
     $is_sll ? $src1_value << $src2_value[4:0]:
     $is_srli ? $src1_value >> $imm[5:0]:
@@ -119,6 +119,7 @@
     $is_srai ? $srai_rslt[31:0]:
     $is_sra ? $sra_rslt[31:0]:
     $is_slti ? ( ($src1_value[31] == $imm[31]) ? $stliu_rslt : {31'b0, $src1_value[31]} ):
+    $is_sltiu ? $stliu_rslt:
     $is_slt ? ( ($src1_value[31] == $src2_value[31]) ? $stlu_rslt : {31'b0, $src1_value[31]} ):
     $is_sltu ? $stlu_rslt:
     $is_lui ? {$imm[31:12], 12'b0}:
@@ -134,7 +135,7 @@
    $sext_src1[63:0] = { {32{$src1_value[31]}}, $src1_value};
 
    $sra_rslt[63:0] = $sext_src1 >> $src2_value[4:0];
-   $srai_rslt[63:0] = $sext_src1 >> $imm;
+   $srai_rslt[63:0] = $sext_src1 >> $imm[4:0];
    
 
    // Register x0 should always be 0 in RISC-V
