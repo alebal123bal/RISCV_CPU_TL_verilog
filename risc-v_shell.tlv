@@ -20,7 +20,11 @@
    $reset = *reset;
    
    
-   $next_pc[31:0] = $reset ? 0 : $taken_br ? $br_tgt_pc[31:0] : ($pc + 4);
+   $next_pc[31:0] = $reset ? 32'b0 : 
+                  $taken_br ? $br_tgt_pc[31:0] : 
+                  $is_jal ? $pc + $imm : 
+                  $is_jalr ? $jalr_tgt_pc : 
+                  ($pc + 4);
    $pc[31:0] = >>1$next_pc;
    `READONLY_MEM($pc, $$instr[31:0]);
 
@@ -151,6 +155,10 @@
                1'b0;
 
    $br_tgt_pc[31:0] = $pc[31:0] + $imm[31:0];
+
+   // Jump logic
+   $jalr_tgt_pc[31:0] = $src1_value + $imm;
+   
 
    // Assert these to end simulation (before Makerchip cycle limit).
    m4+tb()
